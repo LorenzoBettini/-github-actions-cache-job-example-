@@ -24,7 +24,7 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2-
     - name: Download Maven dependencies
-      run: mvn -f io.github.lorenzobettini.example/pom.xml dependency:go-offline
+      run: mvn -f io.github.lorenzobettini.example.parent/pom.xml dependency:go-offline
 
   build:
     needs: cache-dependencies
@@ -46,4 +46,4 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         # perfect match for the cache key
     - name: Build with Maven
-      run: mvn -f io.github.lorenzobettini.example/pom.xml verify
+      run: mvn -f io.github.lorenzobettini.example.parent/pom.xml verify
