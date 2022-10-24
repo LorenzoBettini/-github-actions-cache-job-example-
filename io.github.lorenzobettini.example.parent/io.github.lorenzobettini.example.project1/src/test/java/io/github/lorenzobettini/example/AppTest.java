@@ -1,7 +1,6 @@
 package io.github.lorenzobettini.example;
 
-import static org.junit.Assert.assertTrue;
-
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
@@ -15,6 +14,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-        assertTrue( true );
+        Assertions.assertThat(new Object())
+            .isNotNull();
     }
 }
