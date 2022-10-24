@@ -26,7 +26,9 @@ jobs:
         # perfect match for the cache key:
         # if a POM changes we start with a brand new cache
     - name: Download Maven dependencies
-      run: mvn -f io.github.lorenzobettini.example.parent/pom.xml dependency:go-offline
+      run: >
+        mvn -f io.github.lorenzobettini.example.parent/pom.xml
+        -Pjacoco dependency:go-offline
 
   build:
     needs: cache-dependencies
