@@ -25,4 +25,11 @@
 			</matcher>
 		</filter>
 	</filteredResources>
+	<linkedResources>
+		<link>
+			<name>.github</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/.github</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
