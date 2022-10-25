@@ -55,11 +55,17 @@ jobs:
         distribution: adopt
     - name: Cache Maven packages
       uses: actions/cache@v3
+      id: m2cache # note the cache id, see below for cache-hit
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-build-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    - name: Set Maven offline option
+      run: |
+        echo "maven_arguments=--offline" >> $GITHUB_ENV
+      if: steps.m2cache.outputs.cache-hit == 'true' # note the use of the id 'm2cache'
     - name: Build with Maven
       run: >
         mvn -f io.github.lorenzobettini.example.parent/pom.xml
         -Pjacoco verify
+        ${{ env.maven_arguments }}
