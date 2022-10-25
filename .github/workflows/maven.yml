@@ -55,11 +55,22 @@ jobs:
         distribution: adopt
     - name: Cache Maven packages
       uses: actions/cache@v3
+      id: m2cache # note the cache id, see below for cache-hit
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-build-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    - name: Set Maven offline option in Unix
+      run: |
+        echo "maven_arguments='--offline'" >> $GITHUB_ENV
+      # note the use of the id 'm2cache'
+      if: steps.m2cache.outputs.cache-hit == 'true' && runner.os != 'Windows'
+    - name: Set Maven offline option in Windows
+      run: |
+        echo "maven_arguments='--offline'" | Out-File -FilePath $env:GITHUB_ENV -Append
+      # In Windows the syntax for setting environment variable is different
+      if: steps.m2cache.outputs.cache-hit == 'true' && runner.os == 'Windows'
     - name: Build with Maven
       run: >
         mvn -f io.github.lorenzobettini.example.parent/pom.xml
-        -Pjacoco verify
+        ${{ env.maven_arguments }} -Pjacoco verify
