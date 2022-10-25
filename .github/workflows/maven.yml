@@ -62,7 +62,7 @@ jobs:
         restore-keys: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
     - name: Set Maven offline option
       run: |
-        echo "maven_arguments=--offline" >> $GITHUB_ENV
+        echo "maven_arguments='--offline'" >> $GITHUB_ENV
       if: steps.m2cache.outputs.cache-hit == 'true' # note the use of the id 'm2cache'
     - name: Build with Maven
       run: >
